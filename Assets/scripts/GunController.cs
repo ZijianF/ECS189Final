@@ -10,12 +10,9 @@ public class GunController : MonoBehaviour
     [SerializeField] GameObject EjectionDirPoint;
     [SerializeField] Vector3 bulletDirection;
     [SerializeField] Vector3 shellDirection;
-    //[SerializeField] GameObject bulletGo;
-    //[SerializeField] GameObject shellGo;
     Animator anim;
 
-    [SerializeField] BulletType type; //refire period, amount, angle
-
+    [SerializeField] BulletType type;
     [SerializeField] int gunSelection = 0;
     [SerializeField] int magSize;
     int currMagsize;
@@ -23,21 +20,19 @@ public class GunController : MonoBehaviour
     ShellFactory shellFactory;
 
     Vector3 scaleFactor = Vector3.one;
-    //ShellFactory shellFactory;
 
     // Start is called before the first frame update
     void Awake()
     {
-
-        // Debug.Log("Muzzle Position" + Muzzle.transform.position);
+        //Default bullet direction
         bulletDirection = Muzzle.transform.position - Gun.transform.position;
         bulletDirection = bulletDirection.normalized;
+
         //Ejection can be randomized by choosing multiple dirpoints
         shellDirection = EjectionDirPoint.transform.position - EjectionPort.transform.position;
         shellDirection = shellDirection.normalized;
-        // Debug.Log("Shell direction" + shellDirection);
-        bulletFactory = gameObject.GetComponent<BulletFactory>();
 
+        bulletFactory = gameObject.GetComponent<BulletFactory>();
         shellFactory = gameObject.GetComponent<ShellFactory>();
         try
         {
@@ -46,6 +41,8 @@ public class GunController : MonoBehaviour
         catch (MissingComponentException) { anim = null; }
         GameObject go = this.gameObject;
         int i = 0;
+
+        //The loop is supposed to find the global scale of a child of Gun object
         do
         {
             i++;
@@ -54,12 +51,9 @@ public class GunController : MonoBehaviour
                 go.transform.localScale.y * scaleFactor.y,
                 go.transform.localScale.z * scaleFactor.z);
             go = go.transform.parent.gameObject;
-            Debug.Log(go.name + go.layer);
         } while (!go.tag.Equals("Player") && i < 100);
         if (go.tag.Equals("Player"))
             Debug.Log("Found blake");
-        Debug.Log(scaleFactor);
-
         currMagsize = magSize;
 
     }
@@ -106,7 +100,6 @@ public class GunController : MonoBehaviour
         }
         return shell;
     }
-    // Update is called once per frame
 
     public int CurrentAmmo()
     {
@@ -118,7 +111,8 @@ public class GunController : MonoBehaviour
         currMagsize = magSize;
     }
 
-    //public void Shoot()
+    //Shoot will be called by character controller scripts living on the character
+    //holding a reference to this Gun object
     public void Shoot()
     {
         if (anim)
@@ -128,19 +122,19 @@ public class GunController : MonoBehaviour
 
             currMagsize = magSize;
         }
-    
+
         Bullet bulletSpec = GetBulletSpec();
         Shell shellSpec = GetShellSpec();
         if (anim)
             anim.SetBool("Fire", true);
 
-        //Muzzle.transform.parent = null;
         GameObject[] bullet = bulletFactory.Build(false,
-           Muzzle.transform.position// Muzzle.transform.TransformPoint(0, 0, 0)
+           Muzzle.transform.position
             , bulletSpec);
         GameObject shell = shellFactory.Build(false,
             EjectionPort.transform.position, shellSpec);
-        //Muzzle.transform.SetParent(gameObject.transform, true);
+
+        //Every bullet will need to be scaled and prepare to interact in global
         for (int i = 0; i < bulletSpec.amount; i++)
         {
             bullet[i].transform.SetParent(this.transform, true);
@@ -149,9 +143,9 @@ public class GunController : MonoBehaviour
             bullet[i].transform.localScale.y * gameObject.transform.localScale.y,
             bullet[i].transform.localScale.z * gameObject.transform.localScale.z);
 
-            var bulletController = bullet[i].GetComponent<BulletController>();
-
+            //to disjoin the instantiated bullet and this gun
             bullet[i].transform.parent = null;
+            var bulletController = bullet[i].GetComponent<BulletController>();
             bulletController.Fire();
         }
         shell.transform.SetParent(this.transform, true);
@@ -159,19 +153,17 @@ public class GunController : MonoBehaviour
         shell.transform.localScale.x * gameObject.transform.localScale.x,
         shell.transform.localScale.y * gameObject.transform.localScale.y,
         shell.transform.localScale.z * gameObject.transform.localScale.z);
+        shell.transform.parent = null;
         var shellController = shell.GetComponent<ShellController>();
-        Debug.Log("in gun controller" + shellSpec.force + " " + shellSpec.direction);
         shellController.Fly();
-
-
-        //}
     }
 
+
+    //Renewing the bullet direction based on the focus point global tramsform position
     public void RenewDirection(Vector3 position)
     {
         if (position.x == position.y && position.y == position.z && position.x == -1)
         {
-
             bulletDirection = Muzzle.transform.position - Gun.transform.position;
         }
         bulletDirection = position - Muzzle.gameObject.transform.position;

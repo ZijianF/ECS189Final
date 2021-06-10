@@ -6,21 +6,8 @@ public class ShellFactory : MonoBehaviour
 {
     [SerializeField] GameObject handgunShell;
     [SerializeField] GameObject shotgunShell;
-    void OnEnable()
-    {
-        //foreach (GameObject go in Resources.FindObjectsOfTypeAll(typeof(GameObject)) as GameObject[])
-        //{
-        //    if (go.name.Equals("HandGunBS"))
-        //    {
 
-        //        handgunShell = go;
-        //        //shotgunShell = go;
-        //    }
-
-        //}
-        //handgunShell = Resources.Load("HandGunBS") as GameObject;
-    }
-
+    //Depending on the shell type, a different shell prefab will be chosen to be generated
     public GameObject Build(bool random, Vector3 position, Shell sh)
     {
         GameObject shell = null;
@@ -30,10 +17,7 @@ public class ShellFactory : MonoBehaviour
             {
                 shell = Instantiate<GameObject>(handgunShell, position, Quaternion.identity);
                 var controller = shell.GetComponent<ShellController>();
-
-                Debug.Log("in shell factory" + sh.force + " " + sh.direction);
                 controller.SetFields(sh.force, sh.direction);
-
             }
 
             if (sh.bulletType == BulletType.Shotgun)
@@ -41,7 +25,6 @@ public class ShellFactory : MonoBehaviour
                 shell = Instantiate<GameObject>(shotgunShell, position, Quaternion.identity);
                 var controller = shell.GetComponent<ShellController>();
                 controller.SetFields(sh.force, sh.direction);
-
             }
         }
         if (shell == null)
