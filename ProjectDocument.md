@@ -79,6 +79,9 @@ These states are managed by a few scripts that keep track of different objects.
   1. Playing state: player is free to move around and fight with enemies. During this state of the game, player's health and final destination field's state will be tracked to determine whether the player failed or passed the level.
   2. When the player's health points are emptied, a menu will be shown on screen to ask if the player want to try again or go back to the main menu.
   3. When the player manages to touch the final destination field without dying to enemies, the game will congrats the player for beating the level and let player go back to the main menu. 
+Also, bullet time (slow time) system was implemented in the Observer pattern like the one in the Pikmini excercise. The player works as a publisher. When bullet time is receives, it will be able to send the message to all subjects that are subscribed to this publisher. The reason we did this is that in our plan, there will be enemies which have abilities to resist the slowing time ability. We want individual object to know whether the world's time is being slowed or not, so we can design unique reactions for them. Unfortunately, we did not have time to utilize this observer pattern design. Code related to this is at https://github.com/ZijianF/ECS189Final/blob/master/Assets/scripts/PlayerMovement.cs#L101.
+
+
 
 # Sub-Roles
 
