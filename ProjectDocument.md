@@ -90,17 +90,9 @@ Being able to adjust the bullets' speed was especially helpful with designing th
 
 ## Audio
 
-**List your assets including their sources and licenses.**
-
-**Describe the implementation of your audio system.**
-
-**Document the sound style.** 
+**No Audio**
 
 ## Gameplay Testing
-
-**Add a link to the full results of your gameplay tests.**
-
-**Summarize the key findings from your gameplay tests.**
 
 ## Narrative Design
 
