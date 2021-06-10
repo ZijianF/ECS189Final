@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 426b0a7fabf2b044cba137054959eb70
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - handgunShell: {fileID: 5927229410637647573, guid: c5c587746ae98924a92f2d5ca4d9f245, type: 3}
+  - shotgunShell: {fileID: 5927229410637647573, guid: c5c587746ae98924a92f2d5ca4d9f245, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

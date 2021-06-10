@@ -1,0 +1,25 @@
+Check line of sight using raycasting
+
+rig for smooth animation and target tracking
+
+rigid body + collider for enemy maybe simpler collider for main character
+
+Mon:
+Enemy controller
+self controller
+bullet time
+intergration with gun system 
+
+After Monday:
+So basically wasted time doing publisher system for slow mo.
+ideas: Instead of slowing different objects by different factor, simply give main character a little speed boost during slow mo time, 
+should make everything else much easier.
+
+Tues:
+Health, Stamina, Map (maybe just use free assets at this point) Write Doc
+Game logic (including UI, menu, ending)
+Levels can use publisher system (but really just need change player's script)
+Test play and levels (difficulties)
+
+https://www.youtube.com/watch?v=537B1kJp9YQ
+5:20 camera impulse signal setup
